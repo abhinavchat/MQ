@@ -7,6 +7,6 @@ import 'react-native';
 import BrowseContainer from '@containers/recipes/Browse/BrowseContainer';
 
 // Check if BrowseContainer is created correctly
-it('BrowseContainer is created correctly', () => {
+test('BrowseContainer is created correctly', () => {
   expect(typeof BrowseContainer).toEqual('function');
 });
