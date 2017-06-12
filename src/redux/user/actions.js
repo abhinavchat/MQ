@@ -21,30 +21,36 @@ export function login(credentials, freshLogin) {
 
     if (!AppAPI.getToken) return resolve();
 
+    let creds = {};
+    if(null === userCreds) {
+      creds = await AppAPI.getStoredCredentials();
+    }
+
     // Get a new token from API
     return AppAPI.getToken(userCreds)
       .then((token) => {
         let decodedToken = '';
-
-        try {
-          decodedToken = jwtDecode(token);
-        } catch (err) {
+        if((null !== token) || (null !== token.data) || (null !== token.data.session)) {
+          decodedToken = token;
+        } else {
           return reject('Token decode failed.');
         }
-
-        if (
-          !decodedToken || !decodedToken.data ||
-          !decodedToken.data.user || !decodedToken.data.user.id
-        ) {
-          return reject('Token decode failed.');
-        }
-
+        
         // Get user details from API, using my token
-        return AppAPI.users.get(decodedToken.data.user.id)
+        return AppAPI.login.post(null, creds)
           .then((userData) => {
+            let userInfo = {};
+            if(userData.success) {
+              AppAPI.storeUserInfo(userData.data);
+              userInfo = userData.data;
+            } else {
+              userInfo = AppAPI.getUserInfo();
+
+            }
+            
             dispatch({
               type: 'USER_REPLACE',
-              data: userData,
+              data: userInfo,
             });
 
             return resolve(userData);
@@ -57,13 +63,29 @@ export function login(credentials, freshLogin) {
   * Logout
   */
 export function logout() {
-  return dispatch => AppAPI.deleteToken()
-    .then(() => {
-      dispatch({
-        type: 'USER_REPLACE',
-        data: {},
-      });
-    });
+  return dispatch => new Promise(async (resolve, reject) => {
+    return AppAPI.getStoredToken().then((token) => {
+        let decodedToken = '';
+        if((null !== token) || (null !== token.data) || (null !== token.data.session)) {
+          decodedToken = token;
+        } else {
+          return reject('Token decode failed.');
+        }
+
+        // Logout user from API, using my token
+        return AppAPI.logout.post(null, null)
+          .then((userData) => {
+            return AppAPI.deleteToken()
+              .then(() => {
+                dispatch({
+                  type: 'USER_REPLACE',
+                  data: {},
+                });
+              });
+          }).catch(err => reject(err));
+
+    }).catch(err => reject(err));;
+  });
 }
 
 /**

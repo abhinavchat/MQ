@@ -7,7 +7,7 @@
 
 export default {
   // The URL we're connecting to
-  hostname: 'http://wp-api.mcnam.ee',
+  hostname: 'http://www.atcostretail.co.in',
 
   // Map shortnames to the actual endpoints, so that we can
   // use them like so: AppAPI.ENDPOINT_NAME.METHOD()
@@ -18,13 +18,12 @@ export default {
   //    - AppAPI.favourites.patch()
   //    - AppAPI.blog.delete()
   endpoints: new Map([
-    ['login', '/wp-json/jwt-auth/v1/token'], // If you change the key, update the reference below
-    ['users', '/wp-json/wp/v2/users'],
-    ['me', '/wp-json/wp/v2/users/me'],
-    ['recipes', '/wp-json/wp/v2/recipes'],
-    ['meals', '/wp-json/wp/v2/recipe_meal'],
+    ['login', '/index.php?route=rest/login/login'], // If you change the key, update the reference below
+    ['token', '/index.php?route=feed/rest_api/session'], //to get SessionId
+    ['logout', '/index.php?route=rest/logout/logout'],
+    ['meals', '/index.php?route=rest/logout/logout']
   ]),
 
   // Which 'endpoint' key deals with our tokens?
-  tokenKey: 'login',
+  tokenKey: 'token',
 };

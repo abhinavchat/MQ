@@ -113,7 +113,7 @@ class Login extends Component {
         }
 
         this.props.login({
-          username: credentials.Email,
+          email: credentials.Email,
           password: credentials.Password,
         }, true).then(() => {
           this.setState({

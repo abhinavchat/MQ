@@ -103,7 +103,7 @@ function fetcher(method, inputEndpoint, inputParams, body) {
     const timeoutAfter = 7;
     const apiTimedOut = setTimeout(() => (
       reject(ErrorMessages.timeout)
-    ), timeoutAfter * 1000);
+    ), timeoutAfter * 1000000);
 
     if (!method || !endpoint) return reject('Missing params (AppAPI.fetcher).');
 
@@ -114,6 +114,7 @@ function fetcher(method, inputEndpoint, inputParams, body) {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         'User-Agent': USER_AGENT,
+        'X-Oc-Merchant-Id': 'Ngdeb!E%7D',
       },
     };
 
@@ -122,7 +123,7 @@ function fetcher(method, inputEndpoint, inputParams, body) {
     if (Token.getStoredToken && endpoint !== APIConfig.endpoints.get(APIConfig.tokenKey)) {
       const apiToken = await Token.getStoredToken();
       if (apiToken) {
-        req.headers.Authorization = `Bearer ${apiToken}`;
+        req.headers['X-Oc-Session'] = `${apiToken}`;
       }
     }
 

@@ -15,6 +15,7 @@ import { APIConfig } from '@constants/';
 export default class JWT {
   static apiToken = ''
   apiCredentials = {}
+  userInfo = {}  
 
   /**
     * Authenticate
@@ -25,8 +26,8 @@ export default class JWT {
     if (apiToken) return resolve(apiToken);
 
     // Use credentials or AsyncStore Creds?
-    if (credentials && typeof credentials === 'object' && credentials.username && credentials.password) {
-      this.apiCredentials.username = credentials.username;
+    if (credentials && typeof credentials === 'object' && credentials.email && credentials.password) {
+      this.apiCredentials.email = credentials.email;
       this.apiCredentials.password = credentials.password;
 
       // Save new Credentials to AsyncStorage
@@ -38,7 +39,7 @@ export default class JWT {
     }
 
     // No credentials, we can't do anything
-    if (!this.apiCredentials || !this.apiCredentials.username || !this.apiCredentials.password) {
+    if (!this.apiCredentials || !this.apiCredentials.email || !this.apiCredentials.password) {
       return reject({
         data: { status: 403 },
         message: 'Credentials missing (JWT.getToken).',
@@ -46,21 +47,18 @@ export default class JWT {
     }
 
     // Let's try logging in
-    return AppAPI[APIConfig.tokenKey].post(null, {
-      username: this.apiCredentials.username,
-      password: this.apiCredentials.password,
-    }).then(async (res) => {
-      if (!res.token) {
+    return AppAPI[APIConfig.tokenKey].get(null, null).then(async (res) => {
+      if (!res.success) {
         return reject(res);
       }
 
-      const tokenIsNowValid = this.tokenIsValid ? await this.tokenIsValid(res.token) : undefined;
+      const tokenIsNowValid = this.tokenIsValid ? await this.tokenIsValid(res.data.session) : undefined;
       if (!tokenIsNowValid) return reject(res);
 
       // Set token in AsyncStorage + memory
-      if (this.storeToken) await this.storeToken(res.token);
+      if (this.storeToken) await this.storeToken(res);
 
-      return resolve(res.token);
+      return resolve(res);
     }).catch(err => reject(err));
   })
 
@@ -94,8 +92,8 @@ export default class JWT {
     * Adds Token to AsyncStorage
     */
   storeToken = async (token) => {
-    await AsyncStorage.setItem('api/token', token);
-    this.apiToken = token;
+    await AsyncStorage.setItem('api/token', token.data.session);
+    this.apiToken = token.data.session;
   }
 
   /**
@@ -112,35 +110,33 @@ export default class JWT {
     * Tests whether a token is valid
     */
   tokenIsValid = (token, userId = null) => {
-    let decodedToken;
-    try {
-      decodedToken = jwtDecode(token);
-    } catch (e) {
-      // Decode failed, must be invalid
+    if(token === 'undefined' || null === token) {
       return false;
+    } else {
+      return true;
+    }
+  }
+
+  /**
+    * Adds Token to AsyncStorage
+    */
+  storeUserInfo = (userinfo) => {
+    AsyncStorage.setItem('api/userInfo', JSON.stringify(userinfo));
+    this.userInfo = userinfo;
+  }
+
+  /**
+    * Retrieves Stored Login Credentials from Storage
+    */
+  getUserInfo = () => {
+    let storedUserInfo = '';
+    if (!this.userInfo) storedUserInfo = AsyncStorage.getItem('api/userInfo');
+    const storedInfo = storedUserInfo ? JSON.parse(storedUserInfo) : false;
+
+    if (storedInfo && typeof storedInfo === 'object' && storedInfo.email && storedInfo.address_id) {
+      this.userInfo = storedInfo;
     }
 
-    const NOW = (Date.now() / 1000) || 0; // current UTC time in whole seconds
-    const eagerRenew = 60; // number of seconds prior to expiry that a token is considered 'old'
-
-    // Validate against 'expiry', 'not before' and 'sub' fields in token
-    if (NOW > (decodedToken.exp - eagerRenew)) return false; // Expired
-    if (NOW < decodedToken.nbf - 300) return false; // Not yet valid (too early!)
-
-    // Don't worry about http vs https - strip it out
-    const thisHostname = APIConfig.hostname.replace(/.*?:\/\//g, '');
-    const tokenHostname = decodedToken.iss.replace(/.*?:\/\//g, '').substr(0, thisHostname.length);
-    if (thisHostname !== tokenHostname) {
-      return false; // Issuing server is different
-    }
-
-    if (
-      userId && decodedToken.sub > 0 &&
-      decodedToken.sub !== userId
-    ) {
-      return false; // Token is for another user
-    }
-
-    return true;
+    return this.userInfo;
   }
 }
