@@ -14,6 +14,7 @@ import { AppConfig } from '@constants/';
 import Authenticate from '@containers/auth/AuthenticateView';
 import AuthWebView from '@containers/auth/WebView';
 import AuthLogin from '@containers/auth/Login/LoginContainer';
+import AuthRegister from '@containers/auth/Register/RegisterContainer';
 
 /* Routes ==================================================================== */
 const scenes = (
@@ -36,11 +37,10 @@ const scenes = (
     <Scene
       {...AppConfig.navbarProps}
       key={'signUp'}
-      title={'Sign Up'}
+      title={'Register'}
       clone
-      component={AuthWebView}
-      url={AppConfig.urls.signUp}
-      analyticsDesc={'AuthWebView: Sign Up'}
+      component={AuthRegister}
+      analyticsDesc={'AuthRegister: Register'}
     />
     <Scene
       {...AppConfig.navbarProps}

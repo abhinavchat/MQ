@@ -21,6 +21,12 @@ export default {
     flexDirection: 'column',
     backgroundColor: Colors.background,
   },
+  containerWhite: {
+    position: 'relative',
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#FFFFFF',
+  },
   containerReversed: {
     position: 'relative',
     flex: 1,
