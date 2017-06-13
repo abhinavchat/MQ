@@ -78,14 +78,18 @@ export default class JWT {
     */
   getStoredCredentials = async () => {
     let storedCredsStr = '';
-    if (!this.apiCredentials) storedCredsStr = await AsyncStorage.getItem('api/credentials');
-    const storedCreds = storedCredsStr ? JSON.parse(storedCredsStr) : false;
-
-    if (storedCreds && typeof storedCreds === 'object' && storedCreds.username && storedCreds.password) {
-      this.apiCredentials = storedCreds;
+    if (this.apiCredentials && typeof this.apiCredentials == 'object' && this.apiCredentials.username && this.apiCredentials.password){
+      storedCredsStr = JSON.parse(this.apiCredentials);
+    } else {
+      storedCredsStr = await AsyncStorage.getItem('api/credentials');
     }
 
-    return this.apiCredentials;
+    if (storedCredsStr && typeof storedCredsStr === 'object' && storedCredsStr.username && storedCredsStr.password) {
+      this.apiCredentials = storedCredsStr;
+      return this.apiCredentials;
+    } else {
+      return false;
+    }
   }
 
   /**

@@ -226,6 +226,7 @@ const AppAPI = {
   handleError,
   getToken: Token.getToken,
   deleteToken: Token.deleteToken,
+  getStoredCredentials: Token.getStoredCredentials,
 };
 
 ENDPOINTS.forEach((endpoint, key) => {

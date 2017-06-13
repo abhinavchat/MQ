@@ -21,6 +21,12 @@ export default {
     flexDirection: 'column',
     backgroundColor: Colors.background,
   },
+  containerReversed: {
+    position: 'relative',
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: Colors.background,
+  },
   containerCentered: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -240,5 +246,23 @@ export default {
     backgroundColor: Colors.tabbar.background,
     borderTopColor: Colors.border,
     borderTopWidth: 1,
+  },
+
+  //Border Radius
+  circle: {
+    borderRadius: 100,
+  },
+
+  roundButton: {
+    borderRadius: 200,
+    padding: 5,
+    alignItems:'center',
+    justifyContent:'center',
+    width:75,
+    height:75,
+  },
+  roundButtonText: {
+    fontSize: 12,
+    fontWeight: "bold",
   },
 };

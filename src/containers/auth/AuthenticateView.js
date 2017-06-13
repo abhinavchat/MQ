@@ -11,11 +11,12 @@ import {
   View,
   Image,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 // Consts and Libs
-import { AppStyles, AppSizes } from '@theme/';
+import { AppStyles, AppSizes, AppColors } from '@theme/';
 
 // Components
 import { Spacer, Text, Button } from '@ui/';
@@ -34,6 +35,27 @@ const styles = StyleSheet.create({
   whiteText: {
     color: '#FFF',
   },
+  orangText: {
+    color: '#e09706',
+  },
+  greenText: {
+    color: '#447a1c',
+  },
+  blueText: {
+    color: '#1b56ad',
+  },
+  loginBackground: {
+    backgroundColor: AppColors.brand.secondary,
+  },
+  registerBackground: {
+    backgroundColor: AppColors.danger,
+  },
+  marginRight: {
+    marginRight:10,
+  },
+  bannerTextSize: {
+    fontSize: 18,
+  }
 });
 
 /* Component ==================================================================== */
@@ -41,61 +63,38 @@ class Authenticate extends Component {
   static componentName = 'Authenticate';
 
   render = () => (
-    <Image
-      source={require('../../images/login.jpg')}
-      style={[AppStyles.containerCentered, AppStyles.container, styles.background]}
-    >
+    <View style={[AppStyles.containerCentered, AppStyles.container, styles.background]}>
       <Image
         source={require('../../images/logo.png')}
         style={[styles.logo]}
       />
-
-      <View style={[AppStyles.row, AppStyles.paddingHorizontal]}>
-        <View style={[AppStyles.flex1]}>
-          <Button
-            title={'Login'}
-            icon={{ name: 'lock' }}
-            onPress={Actions.login}
-          />
-        </View>
-      </View>
-
       <Spacer size={10} />
-
-      <View style={[AppStyles.row, AppStyles.paddingHorizontal]}>
-        <View style={[AppStyles.flex1]}>
-          <Button
-            title={'Sign up'}
-            icon={{ name: 'face' }}
-            onPress={Actions.signUp}
-          />
-        </View>
+      <View style={[AppStyles.containerCentered, AppStyles.containerReversed, styles.background]}>
+        <Text style={[styles.orangText, AppStyles.paddingHorizontal, styles.bannerTextSize]}>
+          Learn
+        </Text>
+        <Text style={[styles.greenText, AppStyles.paddingHorizontal, styles.bannerTextSize]}>
+          Play
+        </Text>
+        <Text style={[styles.blueText, AppStyles.paddingHorizontal, styles.bannerTextSize]}>
+          Win
+        </Text>
       </View>
-
-      <Spacer size={15} />
-
-      <Text p style={[AppStyles.textCenterAligned, styles.whiteText]}>
-        - or -
-      </Text>
-
-      <Spacer size={10} />
-
       <View style={[AppStyles.row, AppStyles.paddingHorizontal]}>
-        <View style={[AppStyles.flex1]} />
-        <View style={[AppStyles.flex2]}>
-          <Button
-            small
-            title={'Skip'}
-            onPress={Actions.app}
-            backgroundColor={'#CB009E'}
-            raised={false}
-          />
-        </View>
-        <View style={[AppStyles.flex1]} />
+        <TouchableOpacity
+          onPress={Actions.login} 
+          style={[AppStyles.roundButton, styles.loginBackground, styles.marginRight]}>
+            <Text style={[AppStyles.roundButtonText, styles.whiteText]}>Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={Actions.signUp}
+          style={[AppStyles.roundButton, styles.registerBackground]}>
+            <Text style={[AppStyles.roundButtonText, styles.whiteText]}>Register</Text>
+        </TouchableOpacity>
       </View>
 
       <Spacer size={40} />
-    </Image>
+      </View>
   )
 }
 

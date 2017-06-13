@@ -22,10 +22,8 @@ export function login(credentials, freshLogin) {
     if (!AppAPI.getToken) return resolve();
 
     let creds = {};
-    if(null === userCreds) {
-      creds = await AppAPI.getStoredCredentials();
-    }
-
+    if((null === userCreds) || (userCreds === undefined)) creds = await AppAPI.getStoredCredentials();
+    
     // Get a new token from API
     return AppAPI.getToken(userCreds)
       .then((token) => {
