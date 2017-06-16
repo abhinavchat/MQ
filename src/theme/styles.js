@@ -60,6 +60,9 @@ export default {
   rightAligned: {
     alignItems: 'flex-end',
   },
+  centerAlignedHorizontal: {
+    alignItems: 'center',
+  },
 
   // Text Styles
   baseText: {

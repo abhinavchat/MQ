@@ -15,13 +15,12 @@ import {
 } from 'react-native';
 import FormValidation from 'tcomb-form-native';
 import { Actions } from 'react-native-router-flux';
-
 // Consts and Libs
 import AppAPI from '@lib/api';
 import { AppStyles, AppSizes, AppColors } from '@theme/';
 
 // Components
-import { Alerts, Card, Spacer, Text, Button } from '@ui/';
+import { Alerts, Card, Spacer, Text, Button, FormInput } from '@ui/';
 
 /* Styles ==================================================================== */
 const styles = StyleSheet.create({
@@ -231,21 +230,49 @@ class Register extends Component {
             </Text>
           </View>
         </View>
-        <View style={[AppStyles.container, styles.background]}>
+        <View style={[AppStyles.container, styles.background, AppStyles.centerAlignedHorizontal]}>
           <Alerts
             status={this.state.resultMsg.status}
             success={this.state.resultMsg.success}
             error={this.state.resultMsg.error}
           />
-
-          <Form
-            ref={(b) => { this.form = b; }}
-            type={this.state.form_fields}
-            value={this.state.form_values}
-            options={this.state.options}
-            ctx={AppStyles.formContainer}
-            style={[AppStyles.centerAligned, AppStyles.formContainer]}
+          
+          <FormInput containerStyle={[{borderBottomColor: AppColors.border, borderBottomWidth: 1,
+                                        backgroundColor: 'aliceblue', width: AppSizes.screen.widthTwoThirds,}]} 
+                      inputStyle={[{color: AppColors.textPrimary,}]}
+                      placeholder={'First Name'}
+                      keyboardType={'phone-pad'}
           />
+
+          <FormInput containerStyle={[{borderBottomColor: AppColors.border, borderBottomWidth: 1,
+                                        backgroundColor: 'aliceblue', width: AppSizes.screen.widthTwoThirds,}]} 
+                      inputStyle={[{color: AppColors.textPrimary,}]}
+                      placeholder={'Last Name'}
+                      keyboardType={'phone-pad'}
+          />
+
+          <FormInput containerStyle={[{borderBottomColor: AppColors.border, borderBottomWidth: 1,
+                                        backgroundColor: 'aliceblue', width: AppSizes.screen.widthTwoThirds,}]} 
+                      inputStyle={[{color: AppColors.textPrimary,}]}
+                      placeholder={'PAN'}
+                      keyboardType={'phone-pad'}
+          />
+
+          <FormInput containerStyle={[{borderBottomColor: AppColors.border, borderBottomWidth: 1,
+                                        backgroundColor: 'aliceblue', width: AppSizes.screen.widthTwoThirds,}]} 
+                      inputStyle={[{color: AppColors.textPrimary,}]}
+                      placeholder={'Password'}
+                      keyboardType={'phone-pad'}
+          />
+
+          <FormInput containerStyle={[{borderBottomColor: AppColors.border, borderBottomWidth: 1,
+                                        backgroundColor: 'aliceblue', width: AppSizes.screen.widthTwoThirds,}]} 
+                      inputStyle={[{color: AppColors.textPrimary,}]}
+                      placeholder={'Confirm Password'}
+                      keyboardType={'phone-pad'}
+          />
+
+          <Spacer size={15} />
 
           <Button
             title={'Register'}
