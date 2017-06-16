@@ -6,7 +6,7 @@
  */
 
 const app = {
-  background: '#E9EBEF',
+  background: '#FFFFFF',
   cardBackground: '#FFFFFF',
   listItemBackground: '#FFFFFF',
   danger: '#dd183c',

@@ -20,7 +20,7 @@ import { AppStyles, AppSizes, AppColors } from '@theme/';
 import { Spacer, Text, Button } from '@ui/';
 
 /* Styles ==================================================================== */
-const MENU_BG_COLOR = '#FFFFFF';
+const MENU_BG_COLOR = '#000000';
 
 const styles = StyleSheet.create({
   backgroundFill: {
@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: AppColors.border,
     paddingBottom: 10,
+    justifyContent: 'center',
   },
   menuItem_text: {
     fontSize: 18,
@@ -62,6 +63,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     marginTop: 10,
     color: '#EEEFF0',
+    left: 10,
   },
 
   // Menu Bottom

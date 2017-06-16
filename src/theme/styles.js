@@ -8,7 +8,7 @@
 import Colors from './colors';
 import Fonts from './fonts';
 import Sizes from './sizes';
-
+import { Platform } from 'react-native';
 export default {
   appContainer: {
     backgroundColor: '#000',
@@ -29,13 +29,20 @@ export default {
   },
   containerReversed: {
     position: 'relative',
-    flex: 1,
     flexDirection: 'row',
     backgroundColor: Colors.background,
   },
   containerCentered: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  formContainer: {
+    position: 'relative',
+    flex: 2,
+    flexDirection: 'column',
+    backgroundColor: Colors.background,
+    width: Sizes.screen.width * 0.60,
+    height: Sizes.screen.height * 0.50,
   },
   windowSize: {
     height: Sizes.screen.height,
@@ -236,15 +243,19 @@ export default {
   navbar: {
     backgroundColor: Colors.brand.primary,
     borderBottomWidth: 0,
+    flex: 3,
+    flexDirection: 'row',
   },
   navbarTitle: {
     color: '#ffffff',
     fontWeight: 'bold',
     fontFamily: Fonts.base.family,
     fontSize: Fonts.base.size,
+    alignItems: 'flex-end',
   },
   navbarButton: {
     tintColor: '#ffffff',
+    alignItems: 'flex-start',
   },
 
   // TabBar
@@ -261,14 +272,53 @@ export default {
 
   roundButton: {
     borderRadius: 200,
-    padding: 5,
     alignItems:'center',
     justifyContent:'center',
-    width:75,
-    height:75,
+    width:100,
+    height:100,
   },
   roundButtonText: {
-    fontSize: 12,
+    fontSize: 18,
     fontWeight: "bold",
+    paddingBottom: 5,
+  },
+  textbox: {
+    normal: {
+      color: '#4CAEE3',
+      backgroundColor: '#4CAEE3',
+      fontSize: 17,
+      height: 36,
+      paddingVertical: (Platform.OS === 'ios') ? 7 : 0,
+      paddingHorizontal: 7,
+      borderRadius: 4,
+      borderColor: '#4CAEE3',
+      borderWidth: 1,
+      marginBottom: 5
+    },
+    // the style applied when a validation error occours
+    error: {
+      color: '#4CAEE3',
+      fontSize: 17,
+      height: 36,
+      paddingVertical: (Platform.OS === 'ios') ? 7 : 0,
+      paddingHorizontal: 7,
+      borderRadius: 4,
+      borderColor: '#a94442',
+      borderWidth: 1,
+      marginBottom: 5
+    },
+    // the style applied when the textbox is not editable
+    notEditable: {
+      fontSize: 17,
+      height: 36,
+      paddingVertical: (Platform.OS === 'ios') ? 7 : 0,
+      paddingHorizontal: 7,
+      borderRadius: 4,
+      borderColor: '#4CAEE3',
+      borderWidth: 1,
+      marginBottom: 5,
+      color: '#777777',
+      backgroundColor: '#eeeeee'
+    }
   },
 };

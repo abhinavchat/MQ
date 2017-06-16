@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     width: AppSizes.screen.width,
   },
   logo: {
-    width: AppSizes.screen.width * 0.85,
+    width: AppSizes.screen.width * 0.75,
     resizeMode: 'contain',
   },
   whiteText: {
@@ -45,17 +45,26 @@ const styles = StyleSheet.create({
     color: '#1b56ad',
   },
   loginBackground: {
-    backgroundColor: AppColors.brand.secondary,
+    backgroundColor: '#3e4444',
   },
   registerBackground: {
     backgroundColor: AppColors.danger,
   },
   marginRight: {
-    marginRight:10,
+    marginRight:60,
   },
   bannerTextSize: {
-    fontSize: 18,
-  }
+    fontSize: 24,
+    paddingBottom: 5,
+  },
+  bTextSize: {
+    fontSize: 24,
+    paddingBottom: 5,
+  },
+  centered: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 /* Component ==================================================================== */
@@ -64,12 +73,15 @@ class Authenticate extends Component {
 
   render = () => (
     <View style={[AppStyles.containerCentered, AppStyles.container, styles.background]}>
-      <Image
-        source={require('../../images/logo.png')}
-        style={[styles.logo]}
-      />
-      <Spacer size={10} />
-      <View style={[AppStyles.containerCentered, AppStyles.containerReversed, styles.background]}>
+      
+      <View style={styles.centered}>
+        <Image
+          source={require('../../images/logo1.png')}
+          style={[styles.logo]}
+        />
+      </View>
+      <Spacer size={75} />
+      <View style={[AppStyles.containerReversed, styles.centered]}>
         <Text style={[styles.orangText, AppStyles.paddingHorizontal, styles.bannerTextSize]}>
           Learn
         </Text>
@@ -80,7 +92,8 @@ class Authenticate extends Component {
           Win
         </Text>
       </View>
-      <View style={[AppStyles.row, AppStyles.paddingHorizontal]}>
+      <Spacer size={75} />
+      <View style={[AppStyles.row, styles.centered]}>
         <TouchableOpacity
           onPress={Actions.login} 
           style={[AppStyles.roundButton, styles.loginBackground, styles.marginRight]}>
@@ -92,8 +105,6 @@ class Authenticate extends Component {
             <Text style={[AppStyles.roundButtonText, styles.whiteText]}>Register</Text>
         </TouchableOpacity>
       </View>
-
-      <Spacer size={40} />
       </View>
   )
 }

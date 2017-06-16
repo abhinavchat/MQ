@@ -30,8 +30,25 @@ const styles = StyleSheet.create({
     height: AppSizes.screen.height,
     width: AppSizes.screen.width,
   },
+  navBarContainer: {
+    backgroundColor: 'transparent',
+    flex: 1,
+    flexDirection: 'row',
+    position: 'relative',
+    height: AppSizes.screen.height * 0.25,
+  },
+  navBar: {
+    backgroundColor: 'transparent',
+    flex: 1,
+    flexDirection: 'row',
+    position: 'relative',
+    height: AppSizes.screen.height * 0.25,
+    alignItems:'center',
+    justifyContent:'center',
+  },
   logo: {
-    width: AppSizes.screen.width * 0.40,
+    width: AppSizes.screen.width * 0.35,
+    height: AppSizes.screen.width * 0.35,
     resizeMode: 'contain',
   },
   whiteText: {
@@ -58,10 +75,17 @@ const styles = StyleSheet.create({
   bannerTextSize: {
     fontSize: 18,
   },
-  form: {
-    width: AppSizes.screen.width * 0.80,
-    flex: 1,
-    flexDirection: 'column',
+  roundButton: {
+    borderRadius: 10,
+    padding: 5,
+    alignItems:'center',
+    justifyContent:'center',
+    width:AppSizes.screen.width * 0.40,
+    height:AppSizes.screen.width * 0.10,
+  },
+  roundButtonText: {
+    fontSize: 12,
+    fontWeight: "bold",
   },
 });
 
@@ -123,9 +147,9 @@ class Register extends Component {
         error: '',
       },
       form_fields: FormValidation.struct({
+        Name: FormValidation.String,
         Phone: FormValidation.String,//validPhone,
         PanNumber: FormValidation.String,//validPAN,
-        Email: FormValidation.String,//validEmail,
         Password: FormValidation.String,//validPassword,
         ConfirmPassword: FormValidation.String,//passwordMatch,
         Terms: FormValidation.Boolean,
@@ -134,19 +158,17 @@ class Register extends Component {
         Name: '',
         Phone: '',
         PanNumber: '', 
-        Email: '',
         Password: '',
         Terms: false,
       },
       form_values: {},
       options: {
+        auto: 'placeholders',
+        placeholderTextColor: '#0000ff',
+        color: '#0000ff',
         fields: {
-          Email: {
-            placeholder: 'john@appleseed.com',
-            error: 'Please enter a valid email',
-            autoCapitalize: 'none',
-            clearButtonMode: 'while-editing',
-            keyboardType: 'email-address',
+          Name: {
+            error: 'Name cannot be blank',
           },
           Password: {
             error: 'Your new password must be more than 6 characters',
@@ -159,18 +181,16 @@ class Register extends Component {
             secureTextEntry: true,
           },
           PanNumber: {
-            placeholder: 'ABC1234DEF',
             error: 'PAN number must be 10 digits',
             autoCapitalize: true,
             clearButtonMode: 'while-editing',
           },
           Phone: {
-            placeholder: 'Phone Number',
             error: 'Phone number must be 10 digits',
             keyboardType: 'phone-pad',
           },
           Terms: {
-            label: 'By clicking the checkbox, you accept and agree to <a href="#">our terms and conditions</a>',
+            tintColor: 'green',
           },
         },
       },
@@ -194,22 +214,22 @@ class Register extends Component {
     const Form = FormValidation.form.Form;
 
     return (
-      <ScrollView style={[AppStyles.containerWhite]}>
-        <View style={[AppStyles.containerCentered, AppStyles.containerReversed, styles.background]}>
-          <Image
-            source={require('../../../images/logo.png')}
+      <ScrollView style={[AppStyles.container]}>
+        <View style={[styles.navBarContainer]}>
+          <View style={[styles.navBar]}>
+            <Image
+            source={require('../../../images/logo1.png')}
             style={[styles.logo]} />
-            <View style={[AppStyles.containerCentered, AppStyles.containerReversed, styles.background]}>
-              <Text style={[styles.orangText, AppStyles.paddingHorizontal, styles.bannerTextSize]}>
-                Learn
-              </Text>
-              <Text style={[styles.greenText, AppStyles.paddingHorizontal, styles.bannerTextSize]}>
-                Play
-              </Text>
-              <Text style={[styles.blueText, AppStyles.paddingHorizontal, styles.bannerTextSize]}>
-                Win
-              </Text>
-            </View>
+            <Text style={[styles.orangText, AppStyles.paddingHorizontal, styles.bannerTextSize]}>
+              Learn
+            </Text>
+            <Text style={[styles.greenText, AppStyles.paddingHorizontal, styles.bannerTextSize]}>
+              Play
+            </Text>
+            <Text style={[styles.blueText, AppStyles.paddingHorizontal, styles.bannerTextSize]}>
+              Win
+            </Text>
+          </View>
         </View>
         <View style={[AppStyles.container, styles.background]}>
           <Alerts
@@ -223,16 +243,18 @@ class Register extends Component {
             type={this.state.form_fields}
             value={this.state.form_values}
             options={this.state.options}
-            style={styles.form}
+            ctx={AppStyles.formContainer}
+            style={[AppStyles.centerAligned, AppStyles.formContainer]}
           />
 
           <Button
             title={'Register'}
             onPress={this.register}
+            borderRadius={10}
+            small={true}
+            color={'#fff'}
           />
-
-          <Spacer size={10} />
-          </View>
+        </View>
       </ScrollView>
     );
   }
